@@ -1,5 +1,7 @@
-package com.example.calculator;
+package com.example.calculator.service;
 
+import com.example.calculator.data.HolidayDatesReader;
+import com.example.calculator.data.HolidaysDatesXmlReader;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -15,21 +17,22 @@ public class Calculator {
         return avgMountlySalary / AVERAGE_MONTHLY_NUMBER_OF_DAYS * duration;
     }
 
-    public static double calculateByVacationDates(double avgMountlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
+    public static double calculateByVacationDates(double avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
         List<LocalDate> vacationDates = vacationStart.datesUntil(vacationEnd.plusDays(1))
                 .collect(Collectors.toList());
         int paidDays = vacationDates.size() - getNonWorkingDaysNumber(vacationDates);
 
-        return calculateByDuration(avgMountlySalary, paidDays);
+        return calculateByDuration(avgMontlySalary, paidDays);
     }
 
     private static int getNonWorkingDaysNumber(List<LocalDate> vacationDates) {
 
-        Set<LocalDate> nonWorkingDates = Set.of(); // TODO add non-working day source
         int nonWorkingDaysNumber = 0;
+        HolidayDatesReader holidayDatesReader = new HolidaysDatesXmlReader();
+        Set<LocalDate> allHolidaysDates = holidayDatesReader.getHolidays();
 
-        for (LocalDate date : vacationDates) {
-            if (nonWorkingDates.contains(date)) {
+        for (LocalDate vacationDay : vacationDates) {
+            if (allHolidaysDates.contains(vacationDay)) {
                 nonWorkingDaysNumber++;
             }
         }
