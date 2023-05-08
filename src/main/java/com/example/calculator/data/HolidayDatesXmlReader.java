@@ -18,19 +18,15 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 @Component
-public class HolidaysDatesXmlReader implements HolidayDatesReader {
+public class HolidayDatesXmlReader implements HolidayDatesReader {
     private final static String FILEPATH = "src\\main\\resources\\static\\calendar.xml";
     private static final int YEAR = 23;
-    private static Set<LocalDate> holidays = new LinkedHashSet<>();
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM.dd.yy");
 
     @Override
     public Set<LocalDate> getHolidays() {
-        return holidays;
-    }
 
-    @PostConstruct
-    public void loadXml() {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("MM.dd.yy");
+        Set<LocalDate> holidays = new LinkedHashSet<>();
         DocumentBuilder builder;
         Document doc;
         Node node;
@@ -44,16 +40,15 @@ public class HolidaysDatesXmlReader implements HolidayDatesReader {
         } catch (SAXException | IOException e) {
             throw new RuntimeException(e);
         }
-        doc.getDocumentElement();
 
         NodeList nodeList = doc.getElementsByTagName("day");
 
         for (int i = 0; i < nodeList.getLength(); i++) {
             node = nodeList.item(i);
-            holidays.add(LocalDate.parse(node.getAttributes().item(0).getNodeValue() + "." + YEAR, dateTimeFormatter));
+            holidays.add(LocalDate.parse(node.getAttributes().item(0).getNodeValue() + "." + YEAR, DATE_FORMATTER));
         }
 
-
+        return holidays;
     }
 
 

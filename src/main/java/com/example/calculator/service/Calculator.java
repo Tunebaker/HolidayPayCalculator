@@ -1,7 +1,7 @@
 package com.example.calculator.service;
 
 import com.example.calculator.data.HolidayDatesReader;
-import com.example.calculator.data.HolidaysDatesXmlReader;
+import com.example.calculator.data.HolidayDatesXmlReader;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -30,7 +30,7 @@ public class Calculator {
     private static int getNonWorkingDaysNumber(List<LocalDate> vacationDates) {
 
         int nonWorkingDaysNumber = 0;
-        HolidayDatesReader holidayDatesReader = new HolidaysDatesXmlReader();
+        HolidayDatesReader holidayDatesReader = new HolidayDatesXmlReader();
         Set<LocalDate> allHolidaysDates = holidayDatesReader.getHolidays();
 
         for (LocalDate vacationDay : vacationDates) {
