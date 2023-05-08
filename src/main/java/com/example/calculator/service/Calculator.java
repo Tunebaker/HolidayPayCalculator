@@ -2,6 +2,7 @@ package com.example.calculator.service;
 
 import com.example.calculator.data.HolidayDatesReader;
 import com.example.calculator.data.HolidayDatesXmlReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -14,9 +15,16 @@ import java.util.stream.Collectors;
 @Component
 public class Calculator {
     private static final BigDecimal AVERAGE_MONTHLY_NUMBER_OF_DAYS = BigDecimal.valueOf(29.3);
+    private static HolidayDatesReader holidayDatesReader;
+    private static final int SCALE = 3;
+
+    @Autowired
+    public void setHolidayDatesReader(HolidayDatesReader holidayDatesReader) {
+        Calculator.holidayDatesReader = holidayDatesReader;
+    }
 
     public static BigDecimal calculateByDuration(BigDecimal avgMountlySalary, int duration) {
-        return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, 3, RoundingMode.HALF_UP);
+        return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, SCALE, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal calculateByVacationDates(BigDecimal avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
@@ -30,7 +38,6 @@ public class Calculator {
     private static int getNonWorkingDaysNumber(List<LocalDate> vacationDates) {
 
         int nonWorkingDaysNumber = 0;
-        HolidayDatesReader holidayDatesReader = new HolidayDatesXmlReader();
         Set<LocalDate> allHolidaysDates = holidayDatesReader.getHolidays();
 
         for (LocalDate vacationDay : vacationDates) {
