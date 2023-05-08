@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @RequestMapping(value = "/calculate")
 @Validated
 public class CalculatorController {
-    @GetMapping(params = {"salary", "duration"})
+    @GetMapping(params = {"salary", "vacationDuration"})
     public BigDecimal calculatePay(@RequestParam(value = "salary") @PositiveOrZero BigDecimal avgMountlySalary,
                                    @RequestParam(value = "vacationDuration") @Min(1) int vacationDuration) {
         return Calculator.calculateByDuration(avgMountlySalary, vacationDuration);
