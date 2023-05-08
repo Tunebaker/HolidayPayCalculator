@@ -16,7 +16,7 @@ public class Calculator {
     private static final BigDecimal AVERAGE_MONTHLY_NUMBER_OF_DAYS = BigDecimal.valueOf(29.3);
 
     public static BigDecimal calculateByDuration(BigDecimal avgMountlySalary, int duration) {
-        return avgMountlySalary.divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, 3, RoundingMode.HALF_UP).multiply(BigDecimal.valueOf(duration));
+        return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, 3, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal calculateByVacationDates(BigDecimal avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
