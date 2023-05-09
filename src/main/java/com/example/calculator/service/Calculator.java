@@ -1,8 +1,6 @@
 package com.example.calculator.service;
 
 import com.example.calculator.data.HolidayDatesReader;
-import com.example.calculator.data.HolidayDatesXmlReader;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -15,7 +13,7 @@ import java.util.stream.Collectors;
 @Component
 public class Calculator {
     private static final BigDecimal AVERAGE_MONTHLY_NUMBER_OF_DAYS = BigDecimal.valueOf(29.3);
-    private static final int SCALE = 3;
+    private static final int BIG_DECIMAL_SCALE = 3;
     private final HolidayDatesReader holidayDatesReader;
 
     public Calculator(HolidayDatesReader holidayDatesReader) {
@@ -23,7 +21,7 @@ public class Calculator {
     }
 
     public BigDecimal calculateByDuration(BigDecimal avgMountlySalary, int duration) {
-        return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, SCALE, RoundingMode.HALF_UP);
+        return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, BIG_DECIMAL_SCALE, RoundingMode.HALF_UP);
     }
 
     public BigDecimal calculateByVacationDates(BigDecimal avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
