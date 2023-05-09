@@ -3,6 +3,7 @@ package com.example.calculator.data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Date;

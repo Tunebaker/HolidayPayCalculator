@@ -18,7 +18,7 @@ import java.util.Set;
 
 @Component
 public class HolidayDatesXmlReader implements HolidayDatesReader {
-    private final static String FILEPATH = "src\\main\\resources\\static\\calendar.xml";
+    private static final String FILEPATH = "src\\main\\resources\\static\\calendar.xml";
     private static final int YEAR = 23;
     private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("MM.dd.yy");
 

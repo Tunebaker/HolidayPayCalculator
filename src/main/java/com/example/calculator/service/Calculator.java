@@ -15,19 +15,18 @@ import java.util.stream.Collectors;
 @Component
 public class Calculator {
     private static final BigDecimal AVERAGE_MONTHLY_NUMBER_OF_DAYS = BigDecimal.valueOf(29.3);
-    private static HolidayDatesReader holidayDatesReader;
     private static final int SCALE = 3;
+    private final HolidayDatesReader holidayDatesReader;
 
-    @Autowired
-    public void setHolidayDatesReader(HolidayDatesReader holidayDatesReader) {
-        Calculator.holidayDatesReader = holidayDatesReader;
+    public Calculator(HolidayDatesReader holidayDatesReader) {
+        this.holidayDatesReader = holidayDatesReader;
     }
 
-    public static BigDecimal calculateByDuration(BigDecimal avgMountlySalary, int duration) {
+    public BigDecimal calculateByDuration(BigDecimal avgMountlySalary, int duration) {
         return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, SCALE, RoundingMode.HALF_UP);
     }
 
-    public static BigDecimal calculateByVacationDates(BigDecimal avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
+    public BigDecimal calculateByVacationDates(BigDecimal avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
         List<LocalDate> vacationDates = vacationStart.datesUntil(vacationEnd.plusDays(1))
                 .collect(Collectors.toList());
         int paidDays = vacationDates.size() - getNonWorkingDaysNumber(vacationDates);
@@ -35,7 +34,7 @@ public class Calculator {
         return calculateByDuration(avgMontlySalary, paidDays);
     }
 
-    private static int getNonWorkingDaysNumber(List<LocalDate> vacationDates) {
+    private int getNonWorkingDaysNumber(List<LocalDate> vacationDates) {
 
         int nonWorkingDaysNumber = 0;
         Set<LocalDate> allHolidaysDates = holidayDatesReader.getHolidays();

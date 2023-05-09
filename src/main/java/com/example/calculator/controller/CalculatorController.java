@@ -1,6 +1,7 @@
 package com.example.calculator.controller;
 
 import com.example.calculator.service.Calculator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +18,17 @@ import java.time.LocalDate;
 @RequestMapping(value = "/calculate")
 @Validated
 public class CalculatorController {
+
+    Calculator calculator;
+
+    public CalculatorController(Calculator calculator) {
+        this.calculator = calculator;
+    }
+
     @GetMapping(params = {"salary", "vacationDuration"})
     public BigDecimal calculatePay(@RequestParam(value = "salary") @PositiveOrZero BigDecimal avgMountlySalary,
                                    @RequestParam(value = "vacationDuration") @Min(1) int vacationDuration) {
-        return Calculator.calculateByDuration(avgMountlySalary, vacationDuration);
+        return calculator.calculateByDuration(avgMountlySalary, vacationDuration);
     }
 
     @GetMapping(params = {"salary", "vacationStart", "vacationEnd"})
@@ -28,7 +36,7 @@ public class CalculatorController {
                                    @RequestParam(value = "vacationStart") @Valid LocalDate vacationStartDate,
                                    @RequestParam(value = "vacationEnd") @Valid LocalDate vacationEndDate) {
 
-        return Calculator.calculateByVacationDates(avgMountlySalary, vacationStartDate, vacationEndDate);
+        return calculator.calculateByVacationDates(avgMountlySalary, vacationStartDate, vacationEndDate);
     }
 
 }
