@@ -24,12 +24,12 @@ public class Calculator {
         return avgMountlySalary.multiply(BigDecimal.valueOf(duration)).divide(AVERAGE_MONTHLY_NUMBER_OF_DAYS, BIG_DECIMAL_SCALE, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal calculateByVacationDates(BigDecimal avgMontlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
+    public BigDecimal calculateByVacationDates(BigDecimal avgMonthlySalary, LocalDate vacationStart, LocalDate vacationEnd) {
         List<LocalDate> vacationDates = vacationStart.datesUntil(vacationEnd.plusDays(1))
                 .collect(Collectors.toList());
         int paidDays = vacationDates.size() - getNonWorkingDaysNumber(vacationDates);
 
-        return calculateByDuration(avgMontlySalary, paidDays);
+        return calculateByDuration(avgMonthlySalary, paidDays);
     }
 
     private int getNonWorkingDaysNumber(List<LocalDate> vacationDates) {
